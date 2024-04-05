@@ -1,0 +1,59 @@
+https://gist.github.com/Klerith/f9cf8a0073fe5f8e549ea9928fadd15d
+
+Clean Architecture + NODE 
+
+Arquitectura limpia tenemos algunos conceptos importantes, cada uno de ellos tiene un delimitante BIEN CLARO y 
+la comunicacion es desde la base de datos hacia las entidades, no en viceversa, estos son:
+Entidades --> comprende las reglas de negocio fundamentales
+Casos de usos --> Algo bien puntual, bien especifico como crear un usuario, enviar un mail, se "encarga del llamado de la funcion"
+Presentacion --> Rutas controladores middlewares TODO lo relacionado con los que consumen nuestro endpoints
+Base de datos
+
+
+
+CONFIGURACION 
+1. Instalar TS y dependencias
+npm i -D typescript @types/node ts-node-dev rimraf 
+2. Inicializar el archivo de configuracion de TS ( a gusto de cada uno)
+npx tsc --init --outDir dist/ --rootDir src 
+3. Crear scripts para dev, build y start 
+"dev": "tsnd --respawn --clear src/app.ts",
+"build": "rimraf ./dist && tsc",
+"start": "npm run build && node dist/app.js"
+
+ANTES de empezar revisamos las "devDependencies" instaladas las cuales vemos en el package.json
+"devDependencies": {
+    "@types/node": "^20.11.16", --> Para que TS sepa que estamos trabajando en un proj con NODE
+    "rimraf": "^5.0.5", --> nos permite borrar nuestra carpeta de DIST o una carpeta seteada "! ojo aca"
+    "ts-node-dev": "^2.0.0", --> similar a nodemon
+    "typescript": "^5.3.3"
+  }
+
+Dependencias extras:
+
+npm i express 
+npm i --save-dev @types/express 
+npm i dotenv env-var 
+npm i mongoose 
+
+
+datasources :
+En esta carpeta vamos a guardar o vamos a tener las reglas de negocio, NO LAS IMPLEMENTACIONES,
+de doned vamos a Orientar la obtencion de datos. SON ABSTRACTOS
+
+repositories :
+Son quienes se van a comunicar con los datasources. Aca se guardan las reglas de repositorio no hay
+una IMPLEMENTACION aca. SON ABSTRACTOS. Estos repos se conectan con los datosources
+
+palabra reservada ABSTRACT nos permite que no se puedan crear instancias de esa clase
+la clase que tenga esta palabra reservada solo se podra usar para expandirla o para implementarla,
+no se va a poder crear una instancia
+
+Inyeccion de dependencias
+Es un patron que nos ayuda a nosotros a decir que la clase donde se usa... depende de Algo.
+Necesita ALGO
+
+
+Mongo con docker!!!
+https://www.docker.com/products/docker-desktop/
+https://docs.docker.com/desktop/install/ubuntu/
